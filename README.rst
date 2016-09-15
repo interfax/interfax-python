@@ -379,7 +379,7 @@ Resend an inbound fax to a specific email address.
 Documents
 ---------
 
-`Create Documents`_ \| `Upload chunk`_ \| `Get document list`_ \| `Get document stxatus`_ \| `Cancel document`_
+`Create Documents`_ \| `Upload chunk`_ \| `Get document list`_ \| `Get document status`_ \| `Cancel document`_
 
 Document allow for uploading of large files up to 20MB in 200kb chunks.
 The `File`_ format automatically uses this if needed but a
