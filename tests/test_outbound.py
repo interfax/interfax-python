@@ -1,15 +1,15 @@
-from interfax.outbound import Outbound
-
-from interfax.response import OutboundFax, Image
-
 from interfax.files import File
+from interfax.outbound import Outbound
+from interfax.response import Image, OutboundFax
 
 try:
-    from unittest.mock import Mock, patch, call
+    from unittest.mock import Mock
 except ImportError:
-    from mock import Mock, patch, call
+    from mock import Mock
+
 
 class TestOutbound(object):
+
     def setup_method(self, method):
         self.client = Mock()
         self.outbound = Outbound(self.client)
@@ -20,60 +20,59 @@ class TestOutbound(object):
 
     def test___init__(self):
         assert self.outbound.client == self.client
-    
+
     def test__generate_files(self, fake):
         count = fake.random_number(2)
-        
+
         files = []
-        
+
         while count > 0:
-            files.append(File(self.client, fake.pystr(), 
+            files.append(File(self.client, fake.pystr(),
                               mime_type=fake.mime_type()))
             count -= 1
-        
+
         result = self.outbound._generate_files(files)
-        
+
         for i, f in enumerate(result):
             assert f[1] == files[i].file_tuple()
-        
+
         count = fake.random_number(2)
-        
+
         files = []
-        
+
         while count > 0:
             files.append(fake.uri())
             count -= 1
-            
+
         result = self.outbound._generate_files(files)
-        
+
         for i, f in enumerate(result):
             assert f[1][3]['Content-Location'] == files[i]
-    
-    
+
     def test_deliver(self, fake, fax_number, message_id):
-        return_value = "https://rest.interfax.net/outbound/faxes/{0}".format(
+        return_value = 'https://rest.interfax.net/outbound/faxes/{0}'.format(
             message_id)
 
         self.client.post.return_value = return_value
-        
+
         files = fake.pytuple(10, True, str)
 
         kwargs = fake.pydict()
-        
-        valid_keys = ['fax_number', 'contact', 'postpone_time', 
-                      'retries_to_perform', 'csid', 'page_header', 'reference', 
-                      'reply_address', 'page_size', 'fit_to_page', 
+
+        valid_keys = ['fax_number', 'contact', 'postpone_time',
+                      'retries_to_perform', 'csid', 'page_header', 'reference',
+                      'reply_address', 'page_size', 'fit_to_page',
                       'page_orientation', 'resolution', 'rendering']
-        
+
         self.outbound._generate_files = m = Mock()
-        
+
         result = self.outbound.deliver(fax_number, files, **kwargs)
-        
+
         kwargs['fax_number'] = fax_number
-    
-        self.client.post.assert_called_with('/outbound/faxes', kwargs, 
+
+        self.client.post.assert_called_with('/outbound/faxes', kwargs,
                                             valid_keys, files=m.return_value)
-        
+
         assert isinstance(result, OutboundFax)
         assert result.id == str(message_id)
         assert result.client == self.client
@@ -87,7 +86,8 @@ class TestOutbound(object):
 
         result = self.outbound.all(**kwargs)
 
-        self.client.get.assert_called_with('/outbound/faxes', kwargs, valid_keys)
+        self.client.get.assert_called_with('/outbound/faxes', kwargs,
+                                           valid_keys)
 
         assert isinstance(result[0], OutboundFax)
         assert result[0].id == message_id
@@ -104,7 +104,7 @@ class TestOutbound(object):
 
         result = self.outbound.completed(*ids)
 
-        self.client.get.assert_called_with('/outbound/faxes/completed', kwargs, 
+        self.client.get.assert_called_with('/outbound/faxes/completed', kwargs,
                                            valid_keys)
 
         assert isinstance(result[0], OutboundFax)
@@ -151,7 +151,7 @@ class TestOutbound(object):
 
         result = self.outbound.search(**kwargs)
 
-        self.client.get.assert_called_with('/outbound/search', kwargs, 
+        self.client.get.assert_called_with('/outbound/search', kwargs,
                                            valid_keys)
 
         assert isinstance(result[0], OutboundFax)

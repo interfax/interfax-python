@@ -1,26 +1,26 @@
 from os import environ
 
+from cached_property import cached_property
+from inflection import camelize
+from requests import request
+
+from . import __version__
+from .account import Account
+from .documents import Documents
+from .files import Files
+from .inbound import Inbound
+from .outbound import Outbound
+
 try:
     from urllib.parse import urlunsplit, urlencode
 except ImportError:
     from urllib import urlencode
     from urlparse import urlunsplit
 
-from requests import request
-
-from inflection import camelize
-
-from cached_property import cached_property
-
-from . import __version__
-
-from .inbound import Inbound
-from .outbound import Outbound
-from .documents import Documents
-from .files import Files
-from .account import Account
 
 class InterFAX(object):
+    """The client follows the 12-factor apps principle and can be either setup
+    directly or via environment variables."""
 
     USER_AGENT = 'InterFAX Python {0}'.format(__version__)
     DOMAIN = 'rest.interfax.net'
@@ -60,22 +60,28 @@ class InterFAX(object):
     def account(self):
         return Account(self)
 
-    def deliver(self, fax_number, files, **kwargs):
-        return self.outbound.deliver(fax_number, files, **kwargs)
+    @cached_property
+    def deliver(self):
+        return self.outbound.deliver
 
     def get(self, path, params={}, valid_keys=[], **kwargs):
+        """Make a HTTP GET request."""
+
         url = self._url_for(path, params, valid_keys)
         return self._request('GET', url, **kwargs)
 
     def post(self, path, params={}, valid_keys=[], **kwargs):
+        """Make a HTTP POST request."""
         url = self._url_for(path, params, valid_keys)
         return self._request('POST', url, **kwargs)
 
     def delete(self, path, **kwargs):
+        """Make a HTTP DELETE request."""
         url = self._url_for(path)
         return self._request('DELETE', url, **kwargs)
 
     def _request(self, method, url, **kwargs):
+        """Make a HTTP request."""
         kwargs.setdefault('headers', {})
         kwargs['headers']['User-Agent'] = self.USER_AGENT
         kwargs['auth'] = (self.username, self.password)
@@ -83,6 +89,7 @@ class InterFAX(object):
         return self._parse_response(request(method, url, **kwargs))
 
     def _url_for(self, path, params={}, keys=[]):
+        """Validate query params and return fully qualified url."""
         invalid = [k for k in params if k not in keys]
 
         message = 'unexpected keyword argument "{0}", expecting: {1}'
@@ -90,11 +97,14 @@ class InterFAX(object):
         if len(invalid):
             raise TypeError(message.format(invalid[0], ', '.join(keys)))
 
-        params = dict([(camelize(k, False), v) for k,v in params.items()])
+        params = dict([(camelize(k, False), v) for k, v in params.items()])
 
-        return urlunsplit(('https', self.DOMAIN, path, urlencode(params), None))
+        return urlunsplit(('https', self.DOMAIN, path, urlencode(params),
+                           None))
 
     def _parse_response(self, response):
+        """Parse a response object and return the url, json, or binary
+        content."""
         if response.ok:
             if 'location' in response.headers:
                 return response.headers['location']

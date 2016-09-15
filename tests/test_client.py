@@ -1,7 +1,7 @@
-from interfax.client import InterFAX
-
+from inflection import camelize
 from pytest import raises
-from inflection import  camelize
+
+from interfax.client import InterFAX
 
 try:
     from urllib.parse import urlunsplit, urlencode
@@ -14,10 +14,11 @@ try:
 except ImportError:
     from mock import Mock, patch
 
+
 class TestInterFAX(object):
 
     def setup_method(self, method):
-        self.client = InterFAX("username", "password")
+        self.client = InterFAX('username', 'password')
 
     def teardown_method(self, method):
         del self.client
@@ -159,14 +160,14 @@ class TestInterFAX(object):
         self.client._parse_response.assert_called_with(request.return_value)
 
     def test__url_for(self, fake, params):
-        path=fake.pystr()
-        keys=list(params.keys())
-        
+        path = fake.pystr()
+        keys = list(params.keys())
+
         result = self.client._url_for(path, params, keys)
 
-        camel = dict([(camelize(k, False), v) for k,v in params.items()])
+        camel = dict([(camelize(k, False), v) for k, v in params.items()])
 
-        assert result == urlunsplit(('https', self.client.DOMAIN, path, 
+        assert result == urlunsplit(('https', self.client.DOMAIN, path,
                                      urlencode(camel), None))
 
         keys.pop()
@@ -175,41 +176,41 @@ class TestInterFAX(object):
 
     def test__parse_response(self, fake):
         url = fake.uri()
-        
+
         parse = self.client._parse_response
-        
+
         # json
-        
+
         response = Mock()
         response.ok = True
         response.headers = {}
-        
+
         assert parse(response) == response.json.return_value
-        
+
         # redirect
-        
+
         response = Mock()
         response.ok = True
         response.headers = {'location':  url}
-        
+
         assert parse(response) == url
-        
+
         # binary
-        
+
         response = Mock()
         response.ok = True
         response.headers = {}
         response.json.side_effect = Exception
-        
+
         assert parse(response) == response.content
-        
+
         # error
-        
+
         response = Mock()
         response.ok = False
-        
+
         parse(response)
-        
+
         response.raise_for_status.assert_called_with()
 
     def test_user_agent(self):

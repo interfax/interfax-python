@@ -1,13 +1,14 @@
 from interfax.inbound import Inbound
-
-from interfax.response import InboundFax, ForwardingEmail, Image
+from interfax.response import ForwardingEmail, Image, InboundFax
 
 try:
-    from unittest.mock import Mock, patch, call
+    from unittest.mock import Mock
 except ImportError:
-    from mock import Mock, patch, call
+    from mock import Mock
+
 
 class TestInbound(object):
+
     def setup_method(self, method):
         self.client = Mock()
         self.inbound = Inbound(self.client)
@@ -28,7 +29,8 @@ class TestInbound(object):
 
         result = self.inbound.all(**kwargs)
 
-        self.client.get.assert_called_with('/inbound/faxes', kwargs, valid_keys)
+        self.client.get.assert_called_with('/inbound/faxes', kwargs,
+                                           valid_keys)
 
         assert isinstance(result[0], InboundFax)
         assert result[0].id == message_id
@@ -73,7 +75,7 @@ class TestInbound(object):
     def test_mark(self, fake, message_id):
         read = fake.boolean()
 
-        result = self.inbound.mark(message_id, read)
+        self.inbound.mark(message_id, read)
 
         valid_keys = ['unread']
 
@@ -85,12 +87,12 @@ class TestInbound(object):
     def test_resend(self, fake, message_id):
         email = fake.email() if fake.boolean() else None
 
-        result = self.inbound.resend(message_id, email)
+        self.inbound.resend(message_id, email)
 
         valid_keys = ['email']
 
         kwargs = {}
-        
+
         if email:
             kwargs['email'] = email
 
