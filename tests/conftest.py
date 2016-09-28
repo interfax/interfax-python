@@ -32,7 +32,10 @@ def fake():
 
 @fixture
 def fake_dict(fake):
-    count = fake.random_number(digits=2)
+    count = 0
+
+    while count == 0:
+        count = fake.random_number(digits=2)
 
     return dict([(fake.pystr(), fake.pystr()) for k in range(count)])
 
