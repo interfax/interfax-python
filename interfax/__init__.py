@@ -1,7 +1,7 @@
 from .response import InboundFax, OutboundFax, ForwardingEmail, Document, Image
 from .files import File
 
-__version__ = '0.1.0-dev'
+__version__ = '1.0.0'
 
 from .client import InterFAX  # NOQA
 
