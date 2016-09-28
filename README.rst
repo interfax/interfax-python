@@ -1,6 +1,9 @@
 InterFAX Python Package
 =======================
 
+.. image:: https://travis-ci.org/interfax/interfax-python.svg?branch=master
+    :target: https://travis-ci.org/interfax/interfax-python
+
 `Installation`_ \| `Getting Started`_ \| `Contributing`_ \| `Usage`_ \| `License`_
 
 Send and receive faxes in Python with the
@@ -130,7 +133,7 @@ documentation <#interfaxfile>`__ for this class.
 **Keyword Arguments:** ``contact``, ``postpone_time``,
 ``retries_to_perform``, ``csid``, ``page_header``, ``reference``,
 ``page_size``, ``fit_to_page``, ``page_orientation``, ``resolution``,
-``rendering`` 
+``rendering``
 
 **More:**
 `documentation <https://www.interfax.net/en/dev/rest/reference/2918>`__
@@ -155,7 +158,7 @@ faxes).
     [OutboundFax(id=1)]
 
 **Keyword Arguments:** ``limit``, ``last_id``, ``sort_order``,
-``user_id`` 
+``user_id``
 
 **More:**
 `documentation <https://www.interfax.net/en/dev/rest/reference/2920>`__
@@ -250,7 +253,7 @@ Search for outbound faxes.
 
 **Keyword Arguments:** ``ids``, ``reference``, ``date_from``,
 ``date_to``, ``status``, ``user_id``, ``fax_number``, ``limit``,
-``offset`` 
+``offset``
 
 **More:**
 `documentation <https://www.interfax.net/en/dev/rest/reference/2959>`__
@@ -276,7 +279,7 @@ descending ID).
     => [InboundFax(id=1234)]
 
 **Keyword Arguments:** ``unread_only``, ``limit``, ``last_id``,
-``all_users`` 
+``all_users``
 
 **More:**
 `documentation <https://www.interfax.net/en/dev/rest/reference/2935>`__
@@ -581,8 +584,8 @@ well, though the ``.deliver`` method does this conversion automatically.
 ForwardingEmail
 ~~~~~~~~~~~~~~~
 
-A light wrapper around `the 
-response <https://www.interfax.net/en/dev/rest/reference/2930>`__ received by 
+A light wrapper around `the
+response <https://www.interfax.net/en/dev/rest/reference/2930>`__ received by
 asking for the forwarded emails for a fax.
 
 .. code:: python
