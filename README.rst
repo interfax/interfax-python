@@ -552,8 +552,8 @@ It is most useful for sending binary data to the ``.deliver`` method.
 
     >>> # Alternatively
     >>> f = interfax.files.create("....binary data.....", mime_type="application/pdf")
-    >>> f.header
-    "Content-Type: application/pdf"
+    >>> f.headers
+    {"Content-Type": "application/pdf"}
     >>> f.body
     "....binary data....."
 
@@ -566,15 +566,15 @@ well, though the ``.deliver`` method does this conversion automatically.
 
     >>> # a file by path
     >>> f = interfax.files.create("foo/bar.pdf")
-    >>> f.header
-    "Content-Type: application/pdf"
+    >>> f.headers
+    { "Content-Type": "application/pdf" }
     >>> f.body
     "....binary data....."
 
     >>> # a file by url
     >>> f = interfax.files.create("https://foo.com/bar.html")
-    >>> f.header
-    "Content-Location: https://foo.com/bar.html"
+    >>> f.headers
+    {"Content-Location": "https://foo.com/bar.html"}
     >>> f.body
     None
 
