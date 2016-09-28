@@ -15,4 +15,7 @@ lint:
 ci:
 	tox
 
-.PHONY: test ci lint format
+release:
+	python scripts/release.py
+
+.PHONY: test ci lint format release
