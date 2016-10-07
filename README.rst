@@ -48,7 +48,7 @@ principle and can be either set directly or via environment variables.
     # Initialize using parameters
     interfax = InterFAX(username="...", password="...")
 
-    # Alternatice: Initialize using environment variables
+    # Alternative: Initialize using environment variables
     # * INTERFAX_USERNAME
     # * INTERFAX_PASSWORD
     interfax = InterFAX()
