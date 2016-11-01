@@ -74,7 +74,7 @@ Determine the remaining faxing credits in your account.
 Outbound
 --------
 
-`Send fax`_ \| `Get outbound fax list`_ \| `Get completed fax list`_ \| `Get outbound fax record`_ \| `Get outbound fax image`_ \| `Cancel a fax`_ \| `Search fax list`_
+`Send fax`_ \| `Get list <#get-outbound-fax-list>`__ \| `Get completed list <#get-completed-fax-list>`__ \| `Get record <#get-outbound-fax-record>`__ \| `Get image <#get-outbound-fax-image>`__ \| `Cancel fax <#get-outbound-fax-image>`__ \| `Cancel fax <#cancel-a-fax>`__ \| `Search <#search-fax-list>`__
 
 Send fax
 ~~~~~~~~
@@ -261,7 +261,7 @@ Search for outbound faxes.
 Inbound
 -------
 
-`Get inbound fax list`_ \| `Get inbound fax record`_ \| `Get inbound fax image`_ \| `Get forwarding emails`_ \| `Mark as read/unread`_ \| `Resend inbound fax`_
+`Get list <#get-inbound-fax-list>`__ \| `Get record <#get-inbound-fax-record>`__ \| `Get image <#get-inbound-fax-image>`__ \| `Get emails <#get-forwarding-emails>`__ \| `Mark as read <#mark-as-read-unread>`__ \| `Resend to email <#resend-inbound-fax>`__
 
 Get inbound fax list
 ~~~~~~~~~~~~~~~~~~~~
@@ -382,7 +382,7 @@ Resend an inbound fax to a specific email address.
 Documents
 ---------
 
-`Create Documents`_ \| `Upload chunk`_ \| `Get document list`_ \| `Get document status`_ \| `Cancel document`_
+`Create <#create-documents>`__ \| `Upload chunk`_ \| `Get list <#get-document-list>`__ \| `Status <#get-document-status>`__ \| `Cancel <#cancel-document>`__
 
 Document allow for uploading of large files up to 20MB in 200kb chunks.
 The `File`_ format automatically uses this if needed but a
