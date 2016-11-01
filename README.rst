@@ -619,6 +619,24 @@ Contributing
 #. **Push** your work back up to your fork
 #. Submit a **Pull request** so that we can review your changes
 
+
+Tests
+~~~~~
+
+Before submitting a contribution please ensure all tests pass.
+
+.. code:: shell
+
+    pip install tox # install tox
+    tox # run all tests
+
+or
+
+.. code:: shell
+
+    vagrant up
+    vagrant exec tox
+
 License
 -------
 
