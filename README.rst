@@ -18,6 +18,10 @@ This package requires Python 2.6+. You can install it using:
 
     pip install interfax
 
+This module requires libmagic, for help installing on OSX or windows check the
+`python-magic <https://github.com/ahupp/python-magic#dependencies>`__ 
+documentation.
+
 Getting started
 ---------------
 
