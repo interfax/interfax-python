@@ -95,7 +95,7 @@ file path or url.
     # with a path
     interfax.outbound.deliver(fax_number="+11111111112", files=["folder/fax.txt"])
     # with a URL
-    interfax.outbound.deliver(fax_number="+11111111112", files=["https://s3.aws.com/example/fax.pdf"])
+    interfax.outbound.deliver(fax_number="+11111111112", files=["https://s3.aws.com/example/fax.html"])
 
 InterFAX supports over 20 file types including HTML, PDF, TXT, Word, and
 many more. For a full list see the `Supported File
