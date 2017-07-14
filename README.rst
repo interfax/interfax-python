@@ -59,6 +59,18 @@ principle and can be either set directly or via environment variables.
 
 All connections are established over HTTPS.
 
+Timeouts
+~~~~~~~~
+
+The client takes a timeout parameter, this is a floating point number of seconds
+for the client to wait between receiving data before issuing a timeout error.
+
+.. code:: python
+    interfax = InterFAX(timeout=0.001)
+
+**More:**
+`documentation <http://docs.python-requests.org/en/master/user/quickstart/#timeouts>`
+
 Account
 -------
 
@@ -613,6 +625,7 @@ convenience the following methods are available.
     document.upload(0, 999, ".....binary data...." # Maps to the interfax.documents.upload method
     document.cancel() # Maps to the interfax.documents.cancel method
     document.id  # Extracts the ID from the URI (the API does not return the ID)
+
 
 Contributing
 ------------
