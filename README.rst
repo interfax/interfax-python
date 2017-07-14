@@ -62,8 +62,8 @@ All connections are established over HTTPS.
 Timeouts
 ~~~~~~~~
 
-The client takes a timeout parameter, this is passed directly to the underlying
-requests object.
+The client takes a timeout parameter, this is a floating point number of seconds
+for the client to wait between receiving data before issuing a timeout error.
 
 .. code:: python
     interfax = InterFAX(timeout=0.001)
