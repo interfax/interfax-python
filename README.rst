@@ -1,6 +1,8 @@
 InterFAX Python Package
 =======================
 
+.. image:: https://badge.fury.io/py/interfax.svg
+    :target: https://badge.fury.io/py/interfax
 .. image:: https://travis-ci.org/interfax/interfax-python.svg?branch=master
     :target: https://travis-ci.org/interfax/interfax-python
 
@@ -140,7 +142,7 @@ To send multiple files just pass in a list of strings and `File`_ objects.
 
 .. code:: python
 
-    interfax.outbound.deliver(fax_number="+11111111112", files=["fax.pdf", "https://s3.aws.com/example/fax.pdf"])
+    interfax.outbound.deliver(fax_number="+11111111112", files=["fax.pdf", "https://s3.aws.com/example/fax.html"])
 
 Under the hood every path and string is turned into a
 `File <#interfaxfile>`__ object. For more information see `the
