@@ -100,7 +100,7 @@ class TestOutbound(object):
 
         valid_keys = ['ids']
 
-        kwargs = {'ids': ids}
+        kwargs = {'ids': ','.join(str(id) for id in ids)}
 
         result = self.outbound.completed(*ids)
 
