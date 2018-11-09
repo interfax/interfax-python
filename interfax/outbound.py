@@ -55,8 +55,7 @@ class Outbound(object):
             else:
                 args_str += str(arg) + ","
         kwargs = {'ids': args_str}
-        faxes = self.client.get('/outbound/faxes/completed', kwargs,
-                                valid_keys)
+        faxes = self.client.get('/outbound/faxes/completed', kwargs, valid_keys)
         return [OutboundFax(self.client, fax) for fax in faxes]
 
     def find(self, message_id):
