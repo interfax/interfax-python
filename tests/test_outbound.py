@@ -98,7 +98,7 @@ class TestOutbound(object):
 
         ids = fake.pytuple(10, True, int)
 		
-		ids_str = ""
+        ids_str = ""
         for idx, arg in enumerate(ids):
             if idx == len(args) - 1:
                 ids_str += str(arg)
