@@ -97,10 +97,15 @@ class TestOutbound(object):
         self.client.get.return_value = [{'id': message_id}]
 
         ids = fake.pytuple(10, True, int)
-
-        valid_keys = ['ids']
-
-        kwargs = {'ids': ids}
+		
+		ids_str = ""
+        for idx, arg in enumerate(ids):
+            if idx == len(args) - 1:
+                ids_str += str(arg)
+            else:
+                ids_str += str(arg) + ", "
+				
+        kwargs = {'ids': ids_str}
 
         result = self.outbound.completed(*ids)
 
