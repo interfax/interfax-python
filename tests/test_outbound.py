@@ -100,7 +100,7 @@ class TestOutbound(object):
 		
         ids_str = ""
         for idx, arg in enumerate(ids):
-            if idx == len(args) - 1:
+            if idx == len(ids) - 1:
                 ids_str += str(arg)
             else:
                 ids_str += str(arg) + ", "
