@@ -99,9 +99,7 @@ class TestOutbound(object):
         ids = fake.pytuple(10, True, int)
 
         valid_keys = ['ids']
-
         kwargs = {'ids': ','.join(str(id) for id in ids)}
-
         result = self.outbound.completed(*ids)
 
         self.client.get.assert_called_with('/outbound/faxes/completed', kwargs,

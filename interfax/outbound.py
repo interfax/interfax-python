@@ -53,9 +53,8 @@ class Outbound(object):
 
         faxes = self.client.get('/outbound/faxes/completed', kwargs,
                                 valid_keys)
-
         return [OutboundFax(self.client, fax) for fax in faxes]
-
+      
     def find(self, message_id):
         """Retrieves information regarding a previously-submitted fax,
         including its current status."""
