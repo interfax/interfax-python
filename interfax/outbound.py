@@ -47,17 +47,14 @@ class Outbound(object):
         (Submitted id's which have not completed are ignored).
 
         """
-        valid_keys = ['ids']	
-        args_str = ""
-        for idx, arg in enumerate(args):
-            if idx == len(args) - 1:
-                args_str += str(arg)
-            else:
-                args_str += str(arg) + ", "
-        kwargs = {'ids': args_str}
-        faxes = self.client.get('/outbound/faxes/completed', kwargs, valid_keys)
-        return [OutboundFax(self.client, fax) for fax in faxes]
+        valid_keys = ['ids']
 
+        kwargs = {'ids': ','.join(str(arg) for arg in args)}
+
+        faxes = self.client.get('/outbound/faxes/completed', kwargs,
+                                valid_keys)
+        return [OutboundFax(self.client, fax) for fax in faxes]
+      
     def find(self, message_id):
         """Retrieves information regarding a previously-submitted fax,
         including its current status."""
