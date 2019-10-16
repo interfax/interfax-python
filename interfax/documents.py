@@ -29,7 +29,7 @@ class Documents(object):
         kwargs['size'] = size
 
         valid_keys = ['name', 'size', 'disposition', 'shared']
-
+        print("Creating document upload session..")
         uri = self.client.post('/outbound/documents', kwargs, valid_keys)
 
         return Document(self.client, {'uri': uri})
