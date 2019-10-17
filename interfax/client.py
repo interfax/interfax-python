@@ -25,7 +25,7 @@ class InterFAX(object):
     USER_AGENT = 'InterFAX Python {0}'.format(__version__)
     DOMAIN = 'rest.interfax.net'
 
-    def __init__(self, username=None, password=None, timeout=None):
+    def __init__(self, username=None, password=None):
         username = username or environ.get('INTERFAX_USERNAME', None)
         password = password or environ.get('INTERFAX_PASSWORD', None)
 
@@ -39,7 +39,7 @@ class InterFAX(object):
 
         self.username = username
         self.password = password
-        self.timeout = timeout
+        print("Authentication: done")
 
     @cached_property
     def inbound(self):
@@ -83,7 +83,6 @@ class InterFAX(object):
 
     def _request(self, method, url, **kwargs):
         """Make a HTTP request."""
-        kwargs.setdefault('timeout', self.timeout)
         kwargs.setdefault('headers', {})
         kwargs['headers']['User-Agent'] = self.USER_AGENT
         kwargs['auth'] = (self.username, self.password)
@@ -108,12 +107,17 @@ class InterFAX(object):
         """Parse a response object and return the url, json, or binary
         content."""
         if response.ok:
+            print(response)
             if 'location' in response.headers:
                 return response.headers['location']
             else:
                 try:
-                    return response.json()
+                    r = response.json()
+                    return r
                 except:
-                    return response.content
+                    r = response.content
+                    return r
         else:
+            print(response)
+            print('FAILED!')
             response.raise_for_status()
