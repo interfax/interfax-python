@@ -54,11 +54,13 @@ class File(object):
 
     def _init_binary(self, data, mime_type):
         """Initialise with binary data."""
+        self.mime_type = mime_type
+        self.body = data
+
         if len(data) > self.chunk_size:
             return self._init_document(data, mime_type)
 
-        self.mime_type = mime_type
-        self.body = data
+
 
     def _init_document(self, data, mime_type):
         """Upload the data using the documents API."""
@@ -66,12 +68,14 @@ class File(object):
         document = self.client.documents.create(filename, len(data))
 
         cursor = 0
+        counter = 1
 
         while cursor < len(data):
             chunk = data[cursor:cursor + self.chunk_size]
-
+            print('SENDING CHUNK {}..'.format(counter))
             document.upload(cursor, cursor + len(chunk) - 1, chunk)
             cursor += len(chunk)
+            counter += 1
 
         self._init_url(document.uri)
 

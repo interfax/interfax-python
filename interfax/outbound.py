@@ -6,6 +6,8 @@ class Outbound(object):
 
     def __init__(self, client):
         self.client = client
+        self.headers = {} ##
+
 
     def deliver(self, fax_number, files, **kwargs):
         """Submit a fax to a single destination number."""
@@ -16,8 +18,20 @@ class Outbound(object):
 
         kwargs['fax_number'] = fax_number
 
-        result = self.client.post('/outbound/faxes', kwargs, valid_keys,
-                                  files=self._generate_files(files))
+        data = None
+        binaryfile = None
+
+        for f in files: # checking if the file supplied is an URL or binary data
+            if f.startswith('http://') or f.startswith('https://'):
+                self.headers['Content-Location'] = f
+                data = self._generate_files(files)
+            else:
+                binaryfile = self._generate_files(files)
+
+
+        print('DELIVERING...')
+        result = self.client.post('/outbound/faxes', kwargs, valid_keys, data=data, files=binaryfile,
+                                  headers=self.headers)  ## PARAMS: 'data' for URI, 'files' for binary data, with either one supllied the other stays empty
 
         return OutboundFax(self.client, {'id': result.split('/')[-1]})
 
@@ -47,15 +61,13 @@ class Outbound(object):
         (Submitted id's which have not completed are ignored).
 
         """
-        valid_keys = ['ids']	
-        args_str = ""
-        for idx, arg in enumerate(args):
-            if idx == len(args) - 1:
-                args_str += str(arg)
-            else:
-                args_str += str(arg) + ", "
-        kwargs = {'ids': args_str}
-        faxes = self.client.get('/outbound/faxes/completed', kwargs, valid_keys)
+        valid_keys = ['ids']
+
+        kwargs = {'ids': args}
+
+        faxes = self.client.get('/outbound/faxes/completed', kwargs,
+                                valid_keys)
+
         return [OutboundFax(self.client, fax) for fax in faxes]
 
     def find(self, message_id):
