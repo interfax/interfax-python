@@ -20,11 +20,11 @@ install:
 # Prepare Items for GitHub Release
   - export RELEASE_PKG_FILE="./dist/interfax-$version.zip"
   - mkdir ./gitpub # Create Storage Location for ZIP file
+script: tox
+before_deploy:
   - python setup.py sdist --formats=zip -k # Generate ZIP for GitHub Release
   - mv $RELEASE_PKG_FILE ./gitpub # Move package so PyPi does not upload ZIP on deploy
   - export RELEASE_PKG_FILE="./gitpub/interfax-$version.zip" #File Reference for GitHub Deploy
-script: tox
-before_deploy:
 deploy:
 -  provider: pypi
    server: https://test.pypi.org/legacy/ # Remove for deployment to official PyPi repo
