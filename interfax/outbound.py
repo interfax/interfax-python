@@ -68,7 +68,7 @@ class Outbound(object):
                 args_str += str(arg)
             else:
                 args_str += str(arg) + ", "
-        kwargs = {'ids': args}
+        kwargs = {'ids': args_str}
 
         faxes = self.client.get('/outbound/faxes/completed', kwargs,
                                 valid_keys)
