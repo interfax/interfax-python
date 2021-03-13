@@ -101,13 +101,12 @@ class TestOutbound(object):
 
         valid_keys = ['ids']
 
-        ids_str = "'"
+        ids_str = ""
         for idx, arg in enumerate(ids):
             if idx == len(ids) - 1:
                 ids_str += str(arg)
             else:
                 ids_str += str(arg) + ", "
-	ids_str += "'"
 				
         kwargs = {'ids': ids_str}
 
