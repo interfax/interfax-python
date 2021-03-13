@@ -10,7 +10,7 @@ python:
   - "3.9"
 install: 
   - pip install tox-travis
-  - version="1.0.1" #For GitHub
+  - version="1.0.2" #For GitHub
   - export version
   - TRAVIS_TAG="v$version"
   - echo "$TRAVIS_TAG"
