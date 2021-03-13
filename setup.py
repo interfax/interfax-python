@@ -27,6 +27,7 @@ setup(
     author_email='contact@danielknell.co.uk',
     description='InterFAX python library',
     long_description=README,
+    long_description_content_type="text/markdown",
     packages=['interfax'],
     zip_safe=False,
     platforms='any',
