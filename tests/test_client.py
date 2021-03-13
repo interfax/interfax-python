@@ -37,7 +37,6 @@ class TestInterFAX(object):
 
         assert client.username == username
         assert client.password == password
-        assert client.timeout is None
 
     def test__init__environ(self, fake):
         username = fake.pystr()
