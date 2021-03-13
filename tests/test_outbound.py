@@ -17,6 +17,7 @@ class TestOutbound(object):
 
     def teardown_method(self, method):
         del self.client
+	del self.headers
         del self.outbound
 
     def test___init__(self):
@@ -71,8 +72,7 @@ class TestOutbound(object):
 
         kwargs['fax_number'] = fax_number
 
-        self.client.post.assert_called_with('/outbound/faxes', kwargs,
-                                            valid_keys, files=m.return_value)
+        self.client.post.assert_called_with('/outbound/faxes', kwargs, valid_keys, files=m.return_value, headers=self.headers)
 
         assert isinstance(result, OutboundFax)
         assert result.id == str(message_id)
