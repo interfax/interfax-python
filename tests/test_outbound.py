@@ -72,7 +72,7 @@ class TestOutbound(object):
 
         kwargs['fax_number'] = fax_number
 
-        self.client.post.assert_called_with('/outbound/faxes', kwargs, valid_keys, files=m.return_value, headers=self.headers)
+        self.client.post.assert_called_with('/outbound/faxes', kwargs, valid_keys, data=data, files=m.return_value, headers=self.headers)
 
         assert isinstance(result, OutboundFax)
         assert result.id == str(message_id)
