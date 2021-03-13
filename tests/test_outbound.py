@@ -101,19 +101,19 @@ class TestOutbound(object):
 
         valid_keys = ['ids']
 
-        ids_str = ""
+        ids_str = "'"
         for idx, arg in enumerate(ids):
             if idx == len(ids) - 1:
                 ids_str += str(arg)
             else:
                 ids_str += str(arg) + ", "
+	ids_str += "'"
 				
         kwargs = {'ids': ids_str}
 
         result = self.outbound.completed(*ids)
 
-        self.client.get.assert_called_with('/outbound/faxes/completed', kwargs,
-                                           valid_keys)
+        self.client.get.assert_called_with('/outbound/faxes/completed', kwargs, valid_keys)
 
         assert isinstance(result[0], OutboundFax)
         assert result[0].id == message_id
