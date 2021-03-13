@@ -66,13 +66,19 @@ class TestOutbound(object):
                       'reply_address', 'page_size', 'fit_to_page',
                       'page_orientation', 'resolution', 'rendering']
 
-        self.outbound._generate_files = m = Mock()
+	kwargs['fax_number'] = fax_number
 	
-        result = self.outbound.deliver(fax_number, files, **kwargs)
+        data = None
+        binaryfile = None
 
-        kwargs['fax_number'] = fax_number
-
-        self.client.post.assert_called_with('/outbound/faxes', kwargs, valid_keys, data=data, files=m.return_value, headers=self.headers)
+        for f in files: # checking if the file supplied is an URL or binary data
+            if f.startswith('http://') or f.startswith('https://'):
+                self.headers['Content-Location'] = f
+                data = self._generate_files(files)
+            else:
+                binaryfile = self._generate_files(files)
+		
+        result = self.client.post.assert_called_with('/outbound/faxes', kwargs, valid_keys, data=data, files=m.return_value, headers=self.headers)
 
         assert isinstance(result, OutboundFax)
         assert result.id == str(message_id)
