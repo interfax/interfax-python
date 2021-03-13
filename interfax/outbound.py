@@ -62,7 +62,12 @@ class Outbound(object):
 
         """
         valid_keys = ['ids']
-
+        args_str = ""
+        for idx, arg in enumerate(args):
+            if idx == len(args) - 1:
+                args_str += str(arg)
+            else:
+                args_str += str(arg) + ", "
         kwargs = {'ids': args}
 
         faxes = self.client.get('/outbound/faxes/completed', kwargs,
