@@ -72,7 +72,8 @@ class TestOutbound(object):
 
 	self.outbound._generate_files = m = Mock()
 	
-	result = self.client.post('/outbound/faxes', kwargs, valid_keys, data=data, files=m, headers=self.headers)
+	#result = self.client.post('/outbound/faxes', kwargs, valid_keys, data=data, files=m, headers=self.headers)
+	result = self.outbound.deliver(fax_number, files, **kwargs)
 	
         self.client.post.assert_called_with('/outbound/faxes', kwargs, valid_keys, data=data, files=m.return_value, headers=self.headers)
 
