@@ -10,7 +10,7 @@ python:
   - "3.9"
 install: 
   - pip install tox-travis
-  - version="1.0.2" #For GitHub
+  - version="1.0.1" #For GitHub
   - export version
   - TRAVIS_TAG="v$version"
   - echo "$TRAVIS_TAG"
@@ -23,7 +23,7 @@ install:
 script: tox
 before_deploy:
   - python setup.py sdist --formats=zip -k # Generate ZIP for GitHub Release
-  - mv $RELEASE_PKG_FILE ./gitpub # Move package so PyPi does not upload ZIP on deploy
+#  - mv $RELEASE_PKG_FILE ./gitpub # Move package so PyPi does not upload ZIP on deploy
   - export RELEASE_PKG_FILE="./gitpub/interfax-$version.zip" #File Reference for GitHub Deploy
 deploy:
 -  provider: pypi
