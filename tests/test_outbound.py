@@ -52,7 +52,7 @@ class TestOutbound(object):
     def test_deliver(self, fake, fax_number, message_id):
         return_value = 'https://rest.interfax.net/outbound/faxes/{0}'.format(
             message_id)
-	self.headers = {} ##
+	self.client.headers = {} ##
         self.client.post.return_value = return_value
 
         files = fake.pytuple(10, True, str)
