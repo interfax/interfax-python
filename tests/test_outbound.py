@@ -17,7 +17,7 @@ class TestOutbound(object):
 
     def teardown_method(self, method):
         del self.client
-	del self.headers
+        del self.headers
         del self.outbound
 
     def test___init__(self):
