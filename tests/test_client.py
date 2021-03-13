@@ -32,7 +32,6 @@ class TestInterFAX(object):
 
         assert client.username == username
         assert client.password == password
-        assert client.timeout == timeout
 
         client = InterFAX(username, password)
 
@@ -162,7 +161,6 @@ class TestInterFAX(object):
             self.client._request(method, url, **kwargs)
 
         kwargs.setdefault('headers', {})
-        kwargs.setdefault('timeout', self.client.timeout)
         kwargs['headers']['User-Agent'] = self.client.USER_AGENT
         kwargs['auth'] = (self.client.username, self.client.password)
 
