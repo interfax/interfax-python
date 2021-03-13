@@ -12,7 +12,6 @@ class TestOutbound(object):
 
     def setup_method(self, method):
         self.client = Mock()
-	self.headers = {} ##
         self.outbound = Outbound(self.client)
 
     def teardown_method(self, method):
@@ -53,7 +52,7 @@ class TestOutbound(object):
     def test_deliver(self, fake, fax_number, message_id):
         return_value = 'https://rest.interfax.net/outbound/faxes/{0}'.format(
             message_id)
-
+	self.headers = {} ##
         self.client.post.return_value = return_value
 
         files = fake.pytuple(10, True, str)
