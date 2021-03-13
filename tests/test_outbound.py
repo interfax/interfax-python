@@ -66,7 +66,7 @@ class TestOutbound(object):
                       'reply_address', 'page_size', 'fit_to_page',
                       'page_orientation', 'resolution', 'rendering']
 
-	kwargs['fax_number'] = fax_number
+
 	
         data = None
 
@@ -75,6 +75,8 @@ class TestOutbound(object):
 	#result = self.client.post('/outbound/faxes', kwargs, valid_keys, data=data, files=m, headers=self.headers)
 	result = self.outbound.deliver(fax_number, files, **kwargs)
 	
+	kwargs['fax_number'] = fax_number
+		
         self.client.post.assert_called_with('/outbound/faxes', kwargs, valid_keys, data=data, files=m.return_value, headers=self.headers)
 
         assert isinstance(result, OutboundFax)
