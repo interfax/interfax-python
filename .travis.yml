@@ -8,5 +8,41 @@ python:
   - "3.7"
   - "3.8"
   - "3.9"
-install: pip install tox-travis
+install: 
+  - pip install tox-travis
+  - version="1.0.1" #For GitHub
+  - export version
+  - TRAVIS_TAG="v$version"
+  - echo "$TRAVIS_TAG"
+  - echo "$TRAVIS_COMMIT"
+  - echo "$TRAVIS_BUILD_NUMBER"
+#  - git tag $TRAVIS_TAG $TRAVIS_COMMIT
+# Prepare Items for GitHub Release
+  - export RELEASE_PKG_FILE="./dist/interfax-$version.zip"
+  - mkdir ./gitpub # Create Storage Location for ZIP file
+  - python setup.py sdist --formats=zip -k # Generate ZIP for GitHub Release
+  - mv $RELEASE_PKG_FILE ./gitpub # Move package so PyPi does not upload ZIP on deploy
+  - export RELEASE_PKG_FILE="./gitpub/interfax-$version.zip" #File Reference for GitHub Deploy
 script: tox
+before_deploy:
+deploy:
+-  provider: pypi
+   server: https://test.pypi.org/legacy/ # Remove for deployment to official PyPi repo
+   username: "__token__"
+   password:
+     secure: ah3Kk21SHSEbSNA6yxZDE0jkFgdGFPQY5/BwmB05EqW2BauHN90KG39vQmJYDdGL2BAr4G9+wSVnsgI3uPfr8x6739HqcCVYRiTtIAu//s0VotQjjIRV2PvXjQsqDp3XTpjlwZM8PdZs1h9yUn0R7YFxrDTTpxMqEoDjjrh3fDSsheenE09e9Jucr1M3H6xzTxnWwZr9PUZdnOE7PunlxMCrcvRSLmpHVk2FJ4/2NO+NJvLzC90uyZNhr+KgSjbX/xp8Qx6QjBO/HtSmmOACYC9JYsqpEe4Ay8Gywd36E7LgzUvctyOA2rmKe1Ha+2c+bHFkyYtOFhwKX9kT9tSYpZMfEOSekISp2eYwvngDYFBNfYw/gpgcVFHxJ16BLRMavtgzwfkvxeitSnHF1edFFPktpdfUVkqWsUKXnYiw6flXXzMuXVJwL6BWEAj1VRu6Y88D3dxD+p9eJQYgTjn3OIIx/yG5nYTA3QNcjCDaSIpxphWc+vCS7X77/iMJ3PKTRJU4+t/RcMw5OZ27dylZ5d8legK34duwtCt0fNdYFEuvt1NHKDCz5UvB3UBgr2s4g/IgDralME1xde7tm3yfTqTyt6LJWmFNPNwoJ8Inw0U/TwNkcGQ9mgYXavBU9k6NIYVVElm+JmEXr9IKZ6ZXx3ZGOQtvEieHLYaoJwtm9WI=
+   distributions: "sdist bdist_wheel"
+   skip_existing: true
+   skip_cleanup: true
+   on:
+     tags: true
+     condition: $TRAVIS_PYTHON_VERSION == 3.9
+-  provider: releases
+   api_key:
+     secure: S97Yef7wt2WmOkK0W+FhTQrSwjAHoJLLAa2yI4gwNGwg2Vzna9SLEZqynKx8VZi0dkf/jhKBV4Un7PtqzVDaym6IaYwCZ0kICRMbL67Iv/jXlHa1OuQKkwrGzNJJCaPqrz5JLVRQNq+Uu0B4O13BN62n4KverflfZUo7Olt0KrQGmk3YcuQ4mZclDbHii+03TXcXF64qApJNXcTsQh+Y8wusmlVgjwhUN8J5xLn35eAX+Dt5GSHo4V/lW4lWxwVhp35ibaezSb32O3Zlug83bitMteoULK/bg0DZhcLhHkqaNzJgvYTeJDaffueYNEKHDSAq6OVO6QgfREUOj9JJxV0cr9lAuPS2DhW63tpjct1bLA9O2kXgz3yJSWFrbHYYlplUMb5OQJz41SCU326V4fJc+F2GxabbfqBJ8C16AC4VfLZaBQemEd1cCqBfFCdzsHEoMEd5yl9IAgwLv2zbeO4aArFf65hC9t/yMi9yR+6KumKUAaxNKpJylNEvumkO0LkX4VeGPXY0MSf73VAHg9D+yPRZLdT9/tk1qXdWewDMcRmdJZdYO4w+GZzbq/0Fn+0FGRDPtxUOOgwL1vgD7qWpUN8iVxwWWn2cZKvvPjBibpiKgxZZkg3cH5RSfTGVTUfcwR9YaiYsZTjGixoYZpHwUI6wk5kd4rsHwts2o+0=
+   file: $RELEASE_PKG_FILE
+   skip_cleanup: true
+   on:
+     tags: true
+     condition: $TRAVIS_PYTHON_VERSION == 3.9
+     repo: interfax/interfax-python
