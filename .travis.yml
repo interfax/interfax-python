@@ -18,10 +18,10 @@ install:
   - echo "$TRAVIS_BUILD_NUMBER"
 #  - git tag $TRAVIS_TAG $TRAVIS_COMMIT
 # Prepare Items for GitHub Release
-  - export RELEASE_PKG_FILE="./dist/interfax-$version.zip"
   - mkdir ./gitpub # Create Storage Location for future ZIP file
 script: tox
 before_deploy:
+  - export RELEASE_PKG_FILE="./dist/interfax-$version.zip"
   - python setup.py sdist --formats=zip -k # Generate ZIP for GitHub Release
   - mv $RELEASE_PKG_FILE ./gitpub # Move package so PyPi does not upload ZIP on deploy
   - export RELEASE_PKG_FILE="./gitpub/interfax-$version.zip" #File Reference for GitHub Deploy
