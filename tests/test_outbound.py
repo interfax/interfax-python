@@ -12,7 +12,7 @@ class TestOutbound(object):
 
     def setup_method(self, method):
         self.client = Mock()
-	self.headers = {} ##
+        self.headers = {}
         self.outbound = Outbound(self.client)
 
     def teardown_method(self, method):
