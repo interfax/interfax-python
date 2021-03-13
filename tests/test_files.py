@@ -96,7 +96,7 @@ class TestFile(object):
         assert f.headers == {'Content-Location': document.uri}
 
 
-        assert f.file_tuple() == (None, '', None, {
+        assert f.file_tuple() == (None, '', mime_type, {
             'Content-Location': document.uri
         })
 
