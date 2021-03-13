@@ -28,7 +28,7 @@ class TestInterFAX(object):
         password = fake.pystr()
         timeout = fake.pyfloat()
 
-        client = InterFAX(username, password, timeout)
+        client = InterFAX(username, password)
 
         assert client.username == username
         assert client.password == password
