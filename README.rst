@@ -14,7 +14,7 @@ Send and receive faxes in Python with the
 Installation
 ------------
 
-This package requires Python 2.6+. You can install it using:
+This package requires Python 2.7+. You can install it using:
 
 ::
 

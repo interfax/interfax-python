@@ -12,10 +12,12 @@ class TestOutbound(object):
 
     def setup_method(self, method):
         self.client = Mock()
+        self.headers = {}
         self.outbound = Outbound(self.client)
 
     def teardown_method(self, method):
         del self.client
+        del self.headers
         del self.outbound
 
     def test___init__(self):
@@ -52,7 +54,7 @@ class TestOutbound(object):
     def test_deliver(self, fake, fax_number, message_id):
         return_value = 'https://rest.interfax.net/outbound/faxes/{0}'.format(
             message_id)
-
+	
         self.client.post.return_value = return_value
 
         files = fake.pytuple(10, True, str)
@@ -64,14 +66,18 @@ class TestOutbound(object):
                       'reply_address', 'page_size', 'fit_to_page',
                       'page_orientation', 'resolution', 'rendering']
 
+
+	
+        data = None
+
         self.outbound._generate_files = m = Mock()
-
+	
+        #result = self.client.post('/outbound/faxes', kwargs, valid_keys, data=data, files=m, headers=self.headers)
         result = self.outbound.deliver(fax_number, files, **kwargs)
-
+	
         kwargs['fax_number'] = fax_number
-
-        self.client.post.assert_called_with('/outbound/faxes', kwargs,
-                                            valid_keys, files=m.return_value)
+		
+        self.client.post.assert_called_with('/outbound/faxes', kwargs, valid_keys, data=data, files=m.return_value, headers=self.headers)
 
         assert isinstance(result, OutboundFax)
         assert result.id == str(message_id)
@@ -111,8 +117,7 @@ class TestOutbound(object):
 
         result = self.outbound.completed(*ids)
 
-        self.client.get.assert_called_with('/outbound/faxes/completed', kwargs,
-                                           valid_keys)
+        self.client.get.assert_called_with('/outbound/faxes/completed', kwargs, valid_keys)
 
         assert isinstance(result[0], OutboundFax)
         assert result[0].id == message_id

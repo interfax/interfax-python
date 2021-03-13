@@ -54,13 +54,12 @@ class File(object):
 
     def _init_binary(self, data, mime_type):
         """Initialise with binary data."""
-        self.mime_type = mime_type
-        self.body = data
 
         if len(data) > self.chunk_size:
             return self._init_document(data, mime_type)
 
-
+        self.mime_type = mime_type
+        self.body = data
 
     def _init_document(self, data, mime_type):
         """Upload the data using the documents API."""

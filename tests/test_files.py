@@ -94,8 +94,8 @@ class TestFile(object):
                      chunk_size=chunk_size)
 
         assert f.headers == {'Content-Location': document.uri}
-        assert f.mime_type is None
-        assert f.body is None
+
+
         assert f.file_tuple() == (None, '', None, {
             'Content-Location': document.uri
         })

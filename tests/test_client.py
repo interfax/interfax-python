@@ -28,17 +28,15 @@ class TestInterFAX(object):
         password = fake.pystr()
         timeout = fake.pyfloat()
 
-        client = InterFAX(username, password, timeout)
+        client = InterFAX(username, password)
 
         assert client.username == username
         assert client.password == password
-        assert client.timeout == timeout
 
         client = InterFAX(username, password)
 
         assert client.username == username
         assert client.password == password
-        assert client.timeout is None
 
     def test__init__environ(self, fake):
         username = fake.pystr()
@@ -162,7 +160,6 @@ class TestInterFAX(object):
             self.client._request(method, url, **kwargs)
 
         kwargs.setdefault('headers', {})
-        kwargs.setdefault('timeout', self.client.timeout)
         kwargs['headers']['User-Agent'] = self.client.USER_AGENT
         kwargs['auth'] = (self.client.username, self.client.password)
 
