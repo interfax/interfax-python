@@ -12,7 +12,7 @@ install:
   - pip install tox-travis
   - version="1.0.1" #For GitHub
   - export version
-  - TRAVIS_TAG="v$version"
+#  - TRAVIS_TAG="v$version" # Uncomment Line to Deploy
   - echo "$TRAVIS_TAG"
   - echo "$TRAVIS_COMMIT"
   - echo "$TRAVIS_BUILD_NUMBER"
